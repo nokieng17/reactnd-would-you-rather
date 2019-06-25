@@ -44,7 +44,7 @@ export function handleAddQuestion({ optionOneText, optionTwoText }) {
     }
 }
 
-export function voteQuestion({ qid, answer }) {
+export function handleVoteQuestion({ qid, answer }) {
     return (dispatch, getState) => {
         const { authedUser } = getState();
 
