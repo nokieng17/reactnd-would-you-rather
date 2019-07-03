@@ -22,3 +22,12 @@ Require installing package
 ### `npm i --save redux-thunk`
 ### `npm i --save @material-ui/core`
 ### `npm i --save @material-ui/icons`
+
+### `npm install --save-dev eslint-config-react-app babel-eslint@10.x eslint@5.x eslint-plugin-flowtype@2.x eslint-plugin-import@2.x eslint-plugin-jsx-a11y@6.x eslint-plugin-react@7.x eslint-plugin-react-hooks@1.5.0`
+
+### Eslint default config `.eslintrc.json`
+```
+{
+  "extends": "react-app"
+}
+```
