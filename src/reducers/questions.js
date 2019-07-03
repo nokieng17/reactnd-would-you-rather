@@ -10,7 +10,7 @@ export default function questions(qState = {}, action) {
         case ADD_QUESTION:
             return {
                 ...qState,
-                [action.id]: action.question
+                [action.question.id]: action.question
             }
         case VOTE_QUESTION:
             const { qid, answer, authedUser } = action
