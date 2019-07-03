@@ -1,13 +1,128 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin: 0 auto;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.container{
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 40vmin;
+    pointer-events: none;
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+a {
+    text-decoration: none;
+    color: #252525;
+}
+
+.root-nav {
+    border-bottom: 2px #43a047 solid
+}
+
+.nav {
+    display: flex;
+    height: 50px;
+}
+
+.nav ul {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none !important;
+    margin: 0 auto
+}
+
+.nav ul li {
+    margin: 0.5px;
+    padding: 0px 20px 0px 20px;
+    height: 100%;
+    display: flex;
+    align-content: center;
+}
+
+
+/* 
+.nav li:first-child {
+  padding-left: 0;
+} */
+
+ul {
+    padding-left: 0;
+}
+
+ul li {
+    align-content: center;
+    list-style-type: none;
+    text-decoration: none !important;
+}
+
+.nav ul li.selected,
+.nav ul li:hover {
+    cursor: pointer;
+    background-color: #EEE;
+    z-index: 1;
+    background-color: #2e7031;
+}
+
+.nav ul li.selected a,
+.nav ul li:hover a {
+    color: white
+}
+
+.nav .nav-user {
+    flex-flow: row-reverse
+}
+
+.nav li a {
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav .nav-user a div {
+    padding: 0.5px
+}
+
+.nav .nav-user a img {
+    height: 40px;
+    width: 40px;
+    border: 0.5px #ccc solid;
+    border-radius: 20px;
+    background-color: white
 }
