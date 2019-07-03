@@ -1,4 +1,4 @@
-import { showLoading, hideLoading } from 'react-redux-loading'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import * as API from '../_DATA'
 
 export const RECEIVE_QUESTIIONS = "RECEIVE_QUESTIIONS"
@@ -20,7 +20,7 @@ function addQuestion(question) {
     }
 }
 
-function voteQuestion({ qid, answer, authedUser }) {
+function voteQuestion(qid, answer, authedUser) {
     return {
         type: VOTE_QUESTION,
         qid,
@@ -29,7 +29,7 @@ function voteQuestion({ qid, answer, authedUser }) {
     }
 }
 
-export function handleAddQuestion({ optionOneText, optionTwoText }) {
+export function handleAddQuestion(optionOneText, optionTwoText) {
     return (dispatch, getState) => {
         const { authedUser } = getState();
         dispatch(showLoading())
@@ -37,14 +37,14 @@ export function handleAddQuestion({ optionOneText, optionTwoText }) {
         API._saveQuestion({
             optionOneText,
             optionTwoText,
-            author: authedUser.id
+            author: authedUser
         })
             .then(question => dispatch(addQuestion(question)))
             .then(() => dispatch(hideLoading()))
     }
 }
 
-export function handleVoteQuestion({ qid, answer }) {
+export function handleVoteQuestion(qid, answer) {
     return (dispatch, getState) => {
         const { authedUser } = getState();
 
@@ -53,7 +53,7 @@ export function handleVoteQuestion({ qid, answer }) {
             qid,
             answer
         })
-            .then(() => dispatch(voteQuestion({ qid, answer })))
+            .then(() => dispatch(voteQuestion(qid, answer, authedUser)))
             .then(() => dispatch(hideLoading()))
     }
 }
