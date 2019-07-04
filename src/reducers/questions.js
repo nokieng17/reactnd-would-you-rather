@@ -1,4 +1,5 @@
 import { RECEIVE_QUESTIIONS, ADD_QUESTION, VOTE_QUESTION } from './../actions/questions'
+import { statement } from '@babel/template';
 
 export default function questions(qState = {}, action) {
     switch (action.type) {
@@ -14,21 +15,14 @@ export default function questions(qState = {}, action) {
             }
         case VOTE_QUESTION:
             const { qid, answer, authedUser } = action
+            //update user and question
             return {
                 ...qState,
-                [authedUser]: {
-                    ...qState[authedUser],
-                    answers: qState[authedUser].answers.concat([qid])
-                },
                 [qid]: {
                     ...qState[qid],
-                    [qid]: {
-                        ...qState[qid],
-                        [answer]: {
-                            ...qState[qid][answer],
-                            votes: qState[qid][answer].votes.concat([authedUser])
-                        }
-
+                    [answer]: {
+                        ...qState[qid][answer],
+                        votes: qState[qid][answer].votes.concat([authedUser])
                     }
                 }
             }
