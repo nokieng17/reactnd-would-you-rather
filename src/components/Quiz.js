@@ -4,20 +4,58 @@ import Button from '@material-ui/core/Button';
 import QuizTemplate from './QuizTemplate';
 import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { handleVoteQuestion } from '../actions/questions';
+import { Redirect } from 'react-router-dom'
+
+const MyisAnswered = (author = null) => (id) => null !== author && undefined !== author.answers && undefined !== author.answers[id]
 
 class Quiz extends React.Component {
 
     state = {
-        answer: ''
+        answer: '',
+        voted: false
     }
 
+    componentDidMount() {
+        const { author = null, quiz = null } = this.props
+        if (null !== author) {
+            this.setState({
+                answer: author.answers[quiz.id]
+            })
+        }
+    }
+
+    handleAnswerChange = (e) => {
+        const value = e.target.value
+        this.setState({
+            answer: value
+        })
+    }
+
+    handleVoteQuestion = () => {
+
+        this.setState({
+            voted: true
+        })
+    }
+
+
     render() {
-        const { author, quiz, authedUser } = this.props
+        const { author, quiz, authedUser, voteQuestion } = this.props
+        const { answer, voted } = this.state;
         if (null == quiz) {
             return (
-                <p>Could not found the question</p>
+                <p>The question does not exist</p>
             )
         }
+        if (voted || MyisAnswered(author)(quiz.id)) {
+            if (voted && undefined !== this.state.answer) {
+                voteQuestion(quiz.id, this.state.answer)
+            }
+            return (
+                <Redirect to={`/quiz/${quiz.id}/result`} />
+            )
+        }
+
         return (
             <QuizTemplate author={author}>
                 <div style={{ textAlign: "left", margin: "0px 10px 10px 10px" }}>
@@ -27,26 +65,39 @@ class Quiz extends React.Component {
                         aria-label="Would you rather"
                         name="quiz"
                     >
-                        <FormControlLabel value="optionOne" control={<Radio />} label={quiz.optionOne.text} />
-                        <FormControlLabel value="optionTwo" control={<Radio />} label={quiz.optionTwo.text} />
+                        <FormControlLabel
+                            value="optionOne"
+                            checked={"optionOne" === answer}
+                            control={<Radio />}
+                            label={quiz.optionOne.text}
+                            onClick={this.handleAnswerChange} />
+                        <FormControlLabel
+                            value="optionTwo"
+                            checked={"optionTwo" === answer}
+                            control={<Radio />}
+                            label={quiz.optionTwo.text}
+                            onClick={this.handleAnswerChange} />
                     </RadioGroup>
-                    <Button fullWidth variant="contained" disabled={'' !== this.state.answer && '' !== authedUser} color="primary">Submit</Button>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        disabled={'' === this.state.answer || '' === authedUser}
+                        color="primary"
+                        onClick={this.handleVoteQuestion}
+                    >Submit</Button>
                 </div>
             </QuizTemplate>
         )
     }
 }
 //mapStateToProps, mapDispatchToProps
-function mapStateToProps({ author, questions, users, authedUser }, props) {
+function mapStateToProps({ questions, users, authedUser }, props) {
     const { id } = props.match.params
     const quiz = questions[id];
-    if (null == author && null != quiz) {
-        author = users[quiz.author]
-    }
     return {
-        author,
+        author: undefined !== quiz ? users[quiz.author] : null,
         quiz,
-        authedUser
+        authedUser,
     }
 }
 const mapDispatchToProps = dispatch => ({

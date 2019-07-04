@@ -2,42 +2,48 @@ import React, { Component } from "react";
 import { connect } from 'react-redux'
 import logo from './../logo.1.svg'
 import Container from "@material-ui/core/Container";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
+
+const getActiveClass = (path) => (currentPath) => {
+    return path === currentPath ? "selected" : ""
+}
 
 class Nav extends Component {
 
 
+
     render() {
-        const { authedUser, users } = this.props
+        const { authedUser, users, loading, id, path } = this.props
+        const activeClass = getActiveClass(path)
         return (
             <div className="root-nav">
                 <Container maxWidth="md">
                     <div className="nav">
                         <ul>
-                            <li className="selected">
+                            <li className={activeClass('/')}>
                                 <NavLink to="/" exact activeClassName="active">
                                     Home
-                            </NavLink>
+                                </NavLink>
                             </li>
-                            <li>
+                            <li className={activeClass('/new')}>
                                 <NavLink to="/new" exact activeClassName="active">
                                     New Question
-                            </NavLink>
+                                </NavLink>
                             </li>
-                            <li>
+                            <li className={activeClass("/leader-board")}>
                                 <NavLink to="/leader-board" exact activeClassName="active">
                                     Leader Board
-                            </NavLink>
+                                </NavLink>
                             </li>
                         </ul>
                         <ul className="nav-user">
-                            <li>
+                            <li className={activeClass("/logout")}>
                                 <NavLink to="/logout" exact activeClassName="active">
                                     Logout
-                            </NavLink>
+                                </NavLink>
                             </li>
-                            <li>
+                            <li className={activeClass("/user" || "/login")}>
                                 {
                                     '' === authedUser
                                         ?
@@ -46,10 +52,13 @@ class Nav extends Component {
                                             <Avatar src={logo} />
                                         </NavLink>
                                         :
-                                        <NavLink to="/user" exact activeClassName="active">
-                                            Hello, {users[authedUser].name} &nbsp;
+                                        false === loading ?
+                                            <NavLink to="/user" exact activeClassName="active">
+                                                Hello, {users[authedUser].name} &nbsp;
                                             <Avatar src={logo} />
-                                        </NavLink>
+                                            </NavLink>
+                                            :
+                                            ""
                                 }
                             </li>
                         </ul>
@@ -60,10 +69,16 @@ class Nav extends Component {
     }
 }
 // mapStateToProps, mapDispatchToProps
-const mapStateToProps = ({ authedUser, users }) => {
+const mapStateToProps = ({ authedUser, users, shared }, props) => {
+    const { id = null } = props
+    const { loading } = shared
+    const path = props.location.pathname
     return {
         authedUser,
-        users
+        users,
+        loading,
+        id,
+        path
     }
 }
-export default connect(mapStateToProps)(Nav)
+export default withRouter(connect(mapStateToProps)(Nav))

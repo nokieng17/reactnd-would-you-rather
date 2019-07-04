@@ -1,15 +1,17 @@
 import React, { Fragment, Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
-import LoadingBar from 'react-redux-loading-bar'
-import QuizResult from './QuizResult';
-import Quiz from './Quiz';
+import ConnectedLoadingBar from 'react-redux-loading-bar'
+import ConnectedQuizResult from './QuizResult';
+import ConnectedQuiz from './Quiz';
 import Login from './Login';
-import QuizHome from './QuizHome';
-import QuizNew from './QuizNew';
-import LeaderBoard from './LeaderBoard';
-import Nav from './Nav';
+import ConnectedQuizHome from './QuizHome';
+import ConnectedQuizNew from './QuizNew';
+import ConnectedLeaderBoard from './LeaderBoard';
+import ConnectedNav from './Nav';
+import ConnectedLogout from './Logout'
 import { handleInitialData } from './../actions/shared'
+
 
 class App extends Component {
 
@@ -18,34 +20,37 @@ class App extends Component {
     }
 
     render() {
-        const { loading, autheduser } = this.props
+        const { loading, authedUser } = this.props
         const warnLogin = () => (
-            '' === autheduser ? '' :
+            '' === authedUser ?
                 <div>
                     <p color="secondary">Please login to create or vote a question</p>
                 </div>
+                :
+                ''
         )
         return (
             <Router >
                 <Fragment >
-                    <LoadingBar />
+                    <ConnectedLoadingBar />
                     <div className="App" >
-                        <Nav />
+                        <ConnectedNav />
                         <div className="container">
                             {
                                 loading === true
                                     ? null
                                     : <div>
-                                        <Route path="/" exact component={QuizHome} />
-                                        <Route path='/quiz/:id' exact component={Quiz} />
-                                        <Route path="/quiz/:id/result" exact component={QuizResult} />
-                                        <Route path="/new" exact component={QuizNew} />
-                                        <Route path="/leader-board" exact component={LeaderBoard} />
+                                        <Route path="/" exact component={ConnectedQuizHome} />
+                                        <Route path='/quiz/:id' exact component={ConnectedQuiz} />
+                                        <Route path='/quiz/:id/result' exact component={ConnectedQuizResult} />
+
+                                        <Route path="/new" exact component={ConnectedQuizNew} />
+                                        <Route path="/leader-board" exact component={ConnectedLeaderBoard} />
+                                        <Route path="/logout" exact component={ConnectedLogout} />
                                         <Route path='/'>
                                             <div>
                                                 <Switch>
                                                     <Route path='/login' exact ></Route>
-                                                    <Route path="/leader-board" component={LeaderBoard} />
                                                     <Route path='/'>{warnLogin}</Route>
                                                 </Switch>
                                             </div>
@@ -63,11 +68,11 @@ class App extends Component {
     }
 }
 //mapStateToProps, mapDispatchToProps
-function mapStateToProps({ shared, autheduser }) {
+function mapStateToProps({ shared, authedUser }) {
     const { loading } = shared
     return {
         loading,
-        autheduser
+        authedUser
     }
 }
 export default connect(mapStateToProps)(App);

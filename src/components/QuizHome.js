@@ -47,8 +47,6 @@ const style = theme => ({
 })
 
 const isAnswered = (quiz) => {
-    console.log(quiz)
-    console.log(null != quiz.optionOne, null != quiz.optionTwo, [...quiz.optionOne.votes, ...quiz.optionTwo.votes].length > 0)
     return null != quiz.optionOne && null != quiz.optionTwo && [...quiz.optionOne.votes, ...quiz.optionTwo.votes].length > 0
 }
 

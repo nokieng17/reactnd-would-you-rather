@@ -59,8 +59,10 @@ export default function QuizTemplate(props) {
     }))
 
     const classes = createStyle()
-    const { author } = props;
-    console.log(props)
+    const { author = null } = props;
+    if (null === author) {
+        return (<p>User does not exist</p>)
+    }
     return (
         <Card className={classes.card}>
             <CardHeader
@@ -70,8 +72,8 @@ export default function QuizTemplate(props) {
             />
             <CardContent className={classes.content}>
                 <div className={classes.avatar}>
-                    {/* <img src={null != author.avatarURL ? author.avatarURL : logo} className={classes.avatarLogo} alt={author.name} /> */}
-                    <img src={logo} className={classes.avatarLogo} alt={author.name} />
+                    {<img src={process.env.PUBLIC_URL + (null != author.avatarURL ? author.avatarURL : logo)} className={classes.avatarLogo} alt={author.name} />}
+                    {/* <img src={logo} className={classes.avatarLogo} alt={author.name} /> */}
                 </div>
                 <div className={classes.detail}>
                     {props.children}

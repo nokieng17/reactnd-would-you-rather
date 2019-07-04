@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import logo from './../logo.svg'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card/index'
 import CardContent from '@material-ui/core/CardContent';

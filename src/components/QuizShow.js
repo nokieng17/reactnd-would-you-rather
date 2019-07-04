@@ -32,7 +32,6 @@ class QuizShow extends Component {
 }
 //mapStateToProps, mapDispatchToProps
 function mapStateToProps({ questions, users }, { id }) {
-    console.log(id, questions[id], questions)
     const quiz = questions[id]
     return {
         quiz,

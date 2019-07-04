@@ -80,7 +80,7 @@ class QuizNew extends Component {
     onOptionOneChange = (e) => {
         const value = e.target.value
         this.setState((prevState) => ({
-            disableBtn: '' === prevState.optionTwoText || '' === value,
+            disableBtn: ('' === prevState.optionTwoText || '' === value) && '' !== this.props.authedUser,
             optionOneText: value
         }))
     }
@@ -88,7 +88,7 @@ class QuizNew extends Component {
     onOptionTwoChange = (e) => {
         const value = e.target.value
         this.setState((prevState) => ({
-            disableBtn: '' === prevState.optionOneText || '' === value,
+            disableBtn: ('' === prevState.optionOneText || '' === value) && '' !== this.props.authedUser,
             optionTwoText: value
         }))
     }
@@ -139,7 +139,7 @@ class QuizNew extends Component {
                         color="primary"
                         fullWidth
                         onClick={this.handleCreateQuestion}
-                        disabled={this.state.disableBtn && '' === authedUser}
+                        disabled={this.state.disableBtn}
                     >Submit</Button>
                 </div>
             </div>
