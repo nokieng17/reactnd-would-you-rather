@@ -41,7 +41,6 @@ let questions = {
     "pgtensr3conyniwb7wionc": {
         id: "pgtensr3conyniwb7wionc",
         author: "sarahedo",
-        id: "pgtensr3conyniwb7wionc",
         optionOne: { votes: [], text: "React" },
         optionTwo: { votes: [], text: "Flutter" },
         timestamp: 1562152628170
