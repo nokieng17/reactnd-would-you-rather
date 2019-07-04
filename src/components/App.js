@@ -12,6 +12,9 @@ import ConnectedNav from './Nav';
 import ConnectedLogout from './Logout'
 import { handleInitialData } from './../actions/shared'
 import { setAuthedUser } from '../actions/authedUser';
+import NotFound from './NotFound';
+import { Redirect } from 'react-router-dom'
+import DialogLogin from './dialogLogin';
 
 
 class App extends Component {
@@ -22,14 +25,7 @@ class App extends Component {
 
     render() {
         const { loading, authedUser, handleLogin, users } = this.props
-        const warnLogin = () => (
-            '' === authedUser ?
-                <div>
-                    <p color="secondary">Please login to create or vote a question</p>
-                </div>
-                :
-                ''
-        )
+
         return (
             <Router >
                 <Fragment >
@@ -38,29 +34,29 @@ class App extends Component {
                         <ConnectedNav />
                         <div className="container">
                             {
-                                loading === true
-                                    ? null
-                                    : <div>
-                                        <Route path="/" exact component={ConnectedQuizHome} />
-                                        <Route path='/quiz/:id' exact component={ConnectedQuiz} />
-                                        <Route path='/quiz/:id/result' exact component={ConnectedQuizResult} />
+                                '' === authedUser && false === loading ?
+                                    <Switch>
+                                        <Route path='/login' exact component={ConnectedLogin} actionLogin={handleLogin} users={users}></Route>
+                                        {/* regsiter route here */}
+                                        <Route component={DialogLogin}></Route>
+                                    </Switch>
+                                    :
+                                    loading === true
+                                        ? null
+                                        : <div>
+                                            <Switch>
+                                                <Route path="/" exact component={ConnectedQuizHome} />
+                                                <Route path='/quiz/:id' exact component={ConnectedQuiz} />
+                                                <Route path='/quiz/:id/result' exact component={ConnectedQuizResult} />
 
-                                        <Route path="/new" exact component={ConnectedQuizNew} />
-                                        <Route path="/leader-board" exact component={ConnectedLeaderBoard} />
-                                        <Route path="/logout" exact component={ConnectedLogout} />
-                                        <Route path='/'>
-                                            <div>
-                                                <Switch>
-                                                    <Route path='/login' exact component={ConnectedLogin} actionLogin={handleLogin} users={users}></Route>
-                                                    <Route path='/'>{warnLogin}</Route>
-                                                </Switch>
-                                            </div>
-                                        </Route>
-                                    </div>
+                                                <Route path="/new" exact component={ConnectedQuizNew} />
+                                                <Route path="/leader-board" exact component={ConnectedLeaderBoard} />
+                                                <Route path="/logout" exact component={ConnectedLogout} />
+                                                <Route path='/login' exact component={ConnectedLogin} actionLogin={handleLogin} users={users}></Route>
+                                                <Route component={NotFound} />
+                                            </Switch>
+                                        </div>
                             }
-
-                            <Route path="/!*" exact component={warnLogin} />
-
                         </div>
                     </div>
                 </Fragment>
