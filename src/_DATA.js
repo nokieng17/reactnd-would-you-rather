@@ -2,7 +2,7 @@ let users = {
     sarahedo: {
         id: 'sarahedo',
         name: 'Sarah Edo',
-        avatarURL: './images/snow.png',
+        avatarURL: '/images/snow.png',
         answers: {
             "8xf0y6ziyjabvozdd253nd": 'optionOne',
             "6ni6ok3ym7mf1p33lnez": 'optionOne',
@@ -14,7 +14,7 @@ let users = {
     tylermcginnis: {
         id: 'tylermcginnis',
         name: 'Tyler McGinnis',
-        avatarURL: './images/tyler.png',
+        avatarURL: '/images/tyler.png',
         answers: {
             "vthrdm985a262al8qx3do": 'optionOne',
             "xj352vofupe1dqz9emx13r": 'optionTwo',
@@ -24,7 +24,7 @@ let users = {
     johndoe: {
         id: 'johndoe',
         name: 'John Doe',
-        avatarURL: './images/leaf.png',
+        avatarURL: '/images/leaf.png',
         answers: {
             "xj352vofupe1dqz9emx13r": 'optionOne',
             "vthrdm985a262al8qx3do": 'optionTwo',
@@ -35,6 +35,14 @@ let users = {
 }
 
 let questions = {
+    "pgtensr3conyniwb7wionc": {
+        id: "pgtensr3conyniwb7wionc",
+        author: "sarahedo",
+        id: "pgtensr3conyniwb7wionc",
+        optionOne: { votes: [], text: "React" },
+        optionTwo: { votes: [], text: "Flutter" },
+        timestamp: 1562152628170
+    },
     "8xf0y6ziyjabvozdd253nd": {
         id: '8xf0y6ziyjabvozdd253nd',
         author: 'sarahedo',
@@ -184,7 +192,6 @@ export function _saveQuestionAnswer({ authedUser, qid, answer }) {
                     }
                 }
             }
-
             questions = {
                 ...questions,
                 [qid]: {
@@ -196,7 +203,7 @@ export function _saveQuestionAnswer({ authedUser, qid, answer }) {
                 }
             }
 
-            res()
+            res(questions[qid])
         }, 500)
     })
 }
