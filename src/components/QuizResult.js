@@ -18,7 +18,7 @@ function QuizResult(props) {
             <p>The question does not exist</p>
         )
     }
-    if (undefined === author.answers[quiz.id]) {
+    if (!author.answers[quiz.id]) {
         return (
             <Redirect to={`/quiz/${quiz.id}`} />
         )

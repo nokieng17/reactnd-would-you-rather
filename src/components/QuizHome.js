@@ -46,15 +46,15 @@ const style = theme => ({
     }
 })
 
-const isAnswered = (quiz) => {
-    return null != quiz.optionOne && null != quiz.optionTwo && [...quiz.optionOne.votes, ...quiz.optionTwo.votes].length > 0
+const isAnswered = (quiz, authedUser) => {
+    return quiz.optionOne.votes.concat(quiz.optionTwo.votes).includes(authedUser)
 }
 
-const filterAnswered = (questions) => (quizIds) => (isShowAnswered) => {
+const filterAnswered = (questions) => (quizIds, authedUser) => (isShowAnswered) => {
     if (isShowAnswered) {
-        return quizIds.filter(id => isAnswered(questions[id]))
+        return quizIds.filter(id => isAnswered(questions[id], authedUser))
     } else {
-        return quizIds.filter(id => !isAnswered(questions[id]))
+        return quizIds.filter(id => !isAnswered(questions[id], authedUser))
     }
 }
 
@@ -71,10 +71,10 @@ class QuizHome extends Component {
     }
 
     render() {
-        const { classes, questions, quizIds } = this.props
+        const { classes, questions, quizIds, authedUser } = this.props
         const { isShowAnswered } = this.state
 
-        const filter = filterAnswered(questions)(quizIds)
+        const filter = filterAnswered(questions)(quizIds, authedUser)
         const quizs = filter(isShowAnswered)
 
 
@@ -108,10 +108,11 @@ class QuizHome extends Component {
     }
 }
 //mapStateToProps, mapDispatchToProps
-function mapStateToProps({ questions }) {
+function mapStateToProps({ questions, authedUser }) {
     return {
         questions,
-        quizIds: Object.keys(questions).sort((a, b) => questions[b].timestamp - questions[a].timestamp)
+        quizIds: Object.keys(questions).sort((a, b) => questions[b].timestamp - questions[a].timestamp),
+        authedUser
     }
 }
 export default withStyles(style)(connect(mapStateToProps)(QuizHome))

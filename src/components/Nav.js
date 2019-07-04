@@ -14,7 +14,7 @@ class Nav extends Component {
 
 
     render() {
-        const { authedUser, users, loading, id, path } = this.props
+        const { authedUser, users, loading, path } = this.props
         const activeClass = getActiveClass(path)
         return (
             <div className="root-nav">
@@ -37,31 +37,39 @@ class Nav extends Component {
                                 </NavLink>
                             </li>
                         </ul>
-                        <ul className="nav-user">
-                            <li className={activeClass("/logout")}>
-                                <NavLink to="/logout" exact activeClassName="active">
-                                    Logout
-                                </NavLink>
-                            </li>
-                            <li className={activeClass("/user" || "/login")}>
-                                {
-                                    '' === authedUser
-                                        ?
-                                        <NavLink to="/login" exact activeClassName="active">
-                                            Login  &nbsp;
-                                            <Avatar src={logo} />
-                                        </NavLink>
-                                        :
-                                        false === loading ?
+                        {
+                            '' !== authedUser ?
+                                <ul className="nav-user">
+                                    <li className={activeClass("/logout")}>
+                                        <NavLink to="/logout" exact activeClassName="active">
+                                            Logout
+                                    </NavLink>
+                                    </li>
+                                    {
+                                        !loading &&
+                                        <li className={activeClass("/user" || "/login")}>
                                             <NavLink to="/user" exact activeClassName="active">
                                                 Hello, {users[authedUser].name} &nbsp;
                                             <Avatar src={logo} />
                                             </NavLink>
-                                            :
-                                            ""
-                                }
-                            </li>
-                        </ul>
+                                        </li>
+                                    }
+                                </ul>
+                                :
+                                <ul className="nav-user">
+                                    <li className={activeClass("/register")}>
+                                        <NavLink to="/register" exact activeClassName="active">
+                                            Register
+                                        </NavLink>
+                                    </li>
+                                    <li className={activeClass("/login")}>
+                                        <NavLink to="/login" exact activeClassName="active">
+                                            Login  &nbsp;
+                                            <Avatar src={logo} />
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                        }
                     </div>
                 </Container>
             </div>

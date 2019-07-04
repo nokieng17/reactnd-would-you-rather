@@ -4,23 +4,24 @@ import { connect } from 'react-redux'
 import ConnectedLoadingBar from 'react-redux-loading-bar'
 import ConnectedQuizResult from './QuizResult';
 import ConnectedQuiz from './Quiz';
-import Login from './Login';
+import ConnectedLogin from './Login';
 import ConnectedQuizHome from './QuizHome';
 import ConnectedQuizNew from './QuizNew';
 import ConnectedLeaderBoard from './LeaderBoard';
 import ConnectedNav from './Nav';
 import ConnectedLogout from './Logout'
 import { handleInitialData } from './../actions/shared'
+import { setAuthedUser } from '../actions/authedUser';
 
 
 class App extends Component {
 
     componentDidMount() {
-        this.props.dispatch(handleInitialData())
+        this.props.handleInitialData()
     }
 
     render() {
-        const { loading, authedUser } = this.props
+        const { loading, authedUser, handleLogin, users } = this.props
         const warnLogin = () => (
             '' === authedUser ?
                 <div>
@@ -50,7 +51,7 @@ class App extends Component {
                                         <Route path='/'>
                                             <div>
                                                 <Switch>
-                                                    <Route path='/login' exact ></Route>
+                                                    <Route path='/login' exact component={ConnectedLogin} actionLogin={handleLogin} users={users}></Route>
                                                     <Route path='/'>{warnLogin}</Route>
                                                 </Switch>
                                             </div>
@@ -68,11 +69,18 @@ class App extends Component {
     }
 }
 //mapStateToProps, mapDispatchToProps
-function mapStateToProps({ shared, authedUser }) {
+function mapStateToProps({ shared, authedUser, users }) {
     const { loading } = shared
     return {
         loading,
-        authedUser
+        authedUser,
+        users
     }
 }
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleLogin: (authedUser) => dispatch(setAuthedUser(authedUser)),
+        handleInitialData: () => dispatch(handleInitialData())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);

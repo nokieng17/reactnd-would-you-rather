@@ -94,7 +94,7 @@ class QuizNew extends Component {
     }
 
     render() {
-        const { classes, authedUser } = this.props;
+        const { classes } = this.props;
         const { toHome } = this.state
         if (toHome) {
             return (
@@ -156,4 +156,4 @@ const mapStateToProps = ({ authedUser }) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(withStyles(createStyle)(QuizNew))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(createStyle)(QuizNew))

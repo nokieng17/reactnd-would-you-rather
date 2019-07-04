@@ -6,7 +6,7 @@ import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { handleVoteQuestion } from '../actions/questions';
 import { Redirect } from 'react-router-dom'
 
-const MyisAnswered = (author = null) => (id) => null !== author && undefined !== author.answers && undefined !== author.answers[id]
+const MyisAnswered = (authedUser) => (quiz) => quiz.optionOne.votes.concat(quiz.optionTwo.votes).includes(authedUser)
 
 class Quiz extends React.Component {
 
@@ -16,10 +16,10 @@ class Quiz extends React.Component {
     }
 
     componentDidMount() {
-        const { author = null, quiz = null } = this.props
-        if (null !== author) {
+        const { author = null, quiz = null, authedUser } = this.props
+        if (author && quiz) {
             this.setState({
-                answer: author.answers[quiz.id]
+                answer: quiz.optionOne.votes.concat(quiz.optionTwo.votes).includes(authedUser)
             })
         }
     }
@@ -42,12 +42,12 @@ class Quiz extends React.Component {
     render() {
         const { author, quiz, authedUser, voteQuestion } = this.props
         const { answer, voted } = this.state;
-        if (null == quiz) {
+        if (!quiz || !author) {
             return (
                 <p>The question does not exist</p>
             )
         }
-        if (voted || MyisAnswered(author)(quiz.id)) {
+        if (voted || MyisAnswered(authedUser)(quiz)) {
             if (voted && undefined !== this.state.answer) {
                 voteQuestion(quiz.id, this.state.answer)
             }
