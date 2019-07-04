@@ -1,4 +1,4 @@
-import { RECEIVE_USERS } from './../actions/users'
+import { RECEIVE_USERS, ADD_USER } from './../actions/users'
 import { VOTE_QUESTION } from '../actions/questions';
 
 
@@ -20,6 +20,18 @@ export default function users(uState = {}, action) {
                         [qid]: answer
                     }
                 },
+            }
+        case ADD_USER:
+            const { id, name, avatarUrl, password } = action
+            return {
+                ...uState,
+                [id]: {
+                    id,
+                    name,
+                    avatarUrl,
+                    answers: {},
+                    password
+                }
             }
         default:
             return uState

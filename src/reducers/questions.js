@@ -1,5 +1,4 @@
 import { RECEIVE_QUESTIIONS, ADD_QUESTION, VOTE_QUESTION } from './../actions/questions'
-import { statement } from '@babel/template';
 
 export default function questions(qState = {}, action) {
     switch (action.type) {
