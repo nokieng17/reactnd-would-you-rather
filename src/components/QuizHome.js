@@ -71,7 +71,7 @@ class QuizHome extends Component {
     }
 
     render() {
-        const { classes, questions, quizIds, authedUser } = this.props
+        const { classes, questions, quizIds, authedUser, users } = this.props
         const { isShowAnswered } = this.state
 
         const filter = filterAnswered(questions)(quizIds, authedUser)
@@ -98,7 +98,7 @@ class QuizHome extends Component {
 
                             quizs.map(id => (
                                 <div key={id} >
-                                    <QuizShow id={id} />
+                                    <QuizShow id={id} quiz={questions[id]} author={users[questions[id].author]} />
                                 </div>
                             ))
                     }
@@ -108,11 +108,12 @@ class QuizHome extends Component {
     }
 }
 //mapStateToProps, mapDispatchToProps
-function mapStateToProps({ questions, authedUser }) {
+function mapStateToProps({ questions, authedUser, users }) {
     return {
         questions,
         quizIds: Object.keys(questions).sort((a, b) => questions[b].timestamp - questions[a].timestamp),
-        authedUser
+        authedUser,
+        users
     }
 }
 export default withStyles(style)(connect(mapStateToProps)(QuizHome))

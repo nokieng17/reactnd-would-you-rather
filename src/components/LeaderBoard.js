@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/styles';
-import LeaderBoardItem from './LeaderBoardItem'
+import ConnectedLeaderBoardItem from './LeaderBoardItem'
 
 const style = theme => ({
     board: {
@@ -32,13 +32,12 @@ class LeaderBoard extends Component {
 
         const { classes, users, userIds } = this.props
 
-        console.log(users, userIds)
         return (
             <div className={classes.board}>
                 <div className={classes.list}>
                     {
                         userIds.map((id, index) => (
-                            <LeaderBoardItem
+                            <ConnectedLeaderBoardItem
                                 key={id}
                                 prize={calPrize(index)}
                                 name={users[id].name}

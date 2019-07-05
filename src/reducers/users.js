@@ -1,5 +1,5 @@
 import { RECEIVE_USERS, ADD_USER } from './../actions/users'
-import { VOTE_QUESTION } from '../actions/questions';
+import { VOTE_QUESTION, ADD_QUESTION } from '../actions/questions';
 
 
 export default function users(uState = {}, action) {
@@ -31,6 +31,15 @@ export default function users(uState = {}, action) {
                     avatarUrl,
                     answers: {},
                     password
+                }
+            }
+        case ADD_QUESTION:
+            const { author, questionId } = action.question
+            return {
+                ...uState,
+                [author]: {
+                    ...uState[author],
+                    questions: uState[author].questions.concat([questionId])
                 }
             }
         default:
