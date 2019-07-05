@@ -13,7 +13,6 @@ import ConnectedLogout from './Logout'
 import { handleInitialData } from './../actions/shared'
 import { setAuthedUser } from '../actions/authedUser';
 import NotFound from './NotFound';
-import { Redirect } from 'react-router-dom'
 import DialogLogin from './dialogLogin';
 
 

@@ -9,11 +9,25 @@ import { Redirect, withRouter } from 'react-router-dom'
 
 class DialogLogin extends React.Component {
 
+    state = {
+        goToLgin: false
+    }
+
     handleClose = () => {
-        this.props.history.push('/login');
+        this.setState({ goToLgin: true })
     }
 
     render() {
+        const { location } = this.props
+        if (this.state.goToLgin) {
+            return (
+                <Redirect to={{
+                    pathname: '/login',
+                    search: location.search,
+                    state: { referrer: location.pathname }
+                }} />
+            )
+        }
         return (
             <Dialog
                 open={true}
@@ -37,4 +51,4 @@ class DialogLogin extends React.Component {
     }
 }
 
-export default DialogLogin
+export default withRouter(DialogLogin)

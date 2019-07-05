@@ -60,6 +60,9 @@ const createStyle = createStyles((theme) => ({
         }
     }
 }))
+
+const isBtnDisable = ({ optionOneText, optionTwoText }) => '' === optionOneText || '' === optionTwoText
+
 class QuizNew extends Component {
 
     state = {
@@ -79,18 +82,16 @@ class QuizNew extends Component {
 
     onOptionOneChange = (e) => {
         const value = e.target.value
-        this.setState((prevState) => ({
-            disableBtn: ('' === prevState.optionTwoText || '' === value) && '' !== this.props.authedUser,
+        this.setState({
             optionOneText: value
-        }))
+        })
     }
 
     onOptionTwoChange = (e) => {
         const value = e.target.value
-        this.setState((prevState) => ({
-            disableBtn: ('' === prevState.optionOneText || '' === value) && '' !== this.props.authedUser,
+        this.setState({
             optionTwoText: value
-        }))
+        })
     }
 
     render() {
@@ -139,7 +140,7 @@ class QuizNew extends Component {
                         color="primary"
                         fullWidth
                         onClick={this.handleCreateQuestion}
-                        disabled={this.state.disableBtn}
+                        disabled={isBtnDisable(this.state)}
                     >Submit</Button>
                 </div>
             </div>

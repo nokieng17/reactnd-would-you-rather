@@ -84,12 +84,17 @@ class Login extends React.Component {
         const { classes, users, authedUser } = this.props
         const {
             message,
-            username,
-            password
+            username
         } = this.state
+
         if (authedUser) {
+            const { location = {} } = this.props
+            const { referrer = undefined } = location.state
             return (
-                <Redirect to="/" />
+                <Redirect to={{
+                    pathname: referrer ? referrer : "/",
+                    search: referrer ? location.search : ''
+                }} />
             )
         }
 
