@@ -10,19 +10,20 @@ const options = [
 ]
 
 function QuizResult(props) {
-    const { author, quiz = null } = props
+    const { author, quiz, authedUser } = props
     const total = quiz.optionOne.votes.length + quiz.optionTwo.votes.length
 
-    if (null == quiz) {
+    if (!quiz) {
         return (
             <p>The question does not exist</p>
         )
     }
-    if (!author.answers[quiz.id]) {
+    if (!authedUser.answers[quiz.id]) {
         return (
             <Redirect to={`/quiz/${quiz.id}`} />
         )
     }
+    author.name = "Asked by " + author.name
     return (
         <QuizTemplate author={author}>
             <div style={{ textAlign: "left", margin: "0px 10px 0px 10px" }}>
@@ -30,7 +31,7 @@ function QuizResult(props) {
                 {
                     options.map(option => (
                         <QuizResultItem
-                            isMyVote={author.answers[quiz.id] === option}
+                            isMyVote={authedUser.answers[quiz.id] === option}
                             key={option}
                             text={quiz[option].text}
                             score={quiz[option].votes.length}
@@ -44,11 +45,12 @@ function QuizResult(props) {
 //mapStateToProps, mapDispatchToProps
 const mapStateToProps = ({ authedUser, users, questions }, props) => {
     const { id } = props.match.params
-    const author = users[authedUser]
     const quiz = questions[id]
+    const author = quiz ? users[quiz.author] : undefined
     return {
         author,
-        quiz
+        quiz,
+        authedUser: users[authedUser]
     }
 }
 export default connect(mapStateToProps)(QuizResult)

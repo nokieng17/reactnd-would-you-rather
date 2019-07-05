@@ -44,11 +44,13 @@ export default function QuizResultItem(props) {
     }))
 
     const classes = createStyle()
-    const { text, score, total } = props
+    const { text, score, total, isMyVote } = props
+
+    console.log(props)
     return (
         <div className={classes.box}>
             {
-                props.isMyVote &&
+                isMyVote &&
                 <img src={votedLogo} alt={"my vote"} />
             }
             <p className={classes.p}>{text}</p>

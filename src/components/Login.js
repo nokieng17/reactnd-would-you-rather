@@ -89,7 +89,8 @@ class Login extends React.Component {
 
         if (authedUser) {
             const { location = {} } = this.props
-            const { referrer = undefined } = location.state
+            location.state = location.state ? location.state : {}
+            const { referrer = undefined } = location.hasOwnProperty('state') ? location.state : {}
             return (
                 <Redirect to={{
                     pathname: referrer ? referrer : "/",

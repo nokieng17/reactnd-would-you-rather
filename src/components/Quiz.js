@@ -24,6 +24,18 @@ class Quiz extends React.Component {
         }
     }
 
+
+    static getDerivedStateFromProps(props, state) {
+        // do things with nextProps.someProp and prevState.cachedSomeProp
+        const { author = null, quiz = null, authedUser, users } = props
+        if (author && quiz && !state.answer) {
+            return {
+                answer: users[authedUser].answers[quiz]
+            }
+        }
+        return null;
+    }
+
     handleAnswerChange = (e) => {
         const value = e.target.value
         this.setState({
@@ -98,6 +110,7 @@ function mapStateToProps({ questions, users, authedUser }, props) {
         author: undefined !== quiz ? users[quiz.author] : null,
         quiz,
         authedUser,
+        users,
     }
 }
 const mapDispatchToProps = dispatch => ({
