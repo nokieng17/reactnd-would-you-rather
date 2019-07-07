@@ -45,11 +45,10 @@ class App extends Component {
                                         : <div>
                                             <Switch>
                                                 <Route path="/" exact component={ConnectedQuizHome} />
-                                                <Route path='/quiz/:id' exact component={ConnectedQuiz} />
-                                                <Route path='/quiz/:id/result' exact component={ConnectedQuizResult} />
+                                                <Route path='/question/:question_id' exact component={ConnectedQuiz} />
 
-                                                <Route path="/new" exact component={ConnectedQuizNew} />
-                                                <Route path="/leader-board" exact component={ConnectedLeaderBoard} />
+                                                <Route path="/add" exact component={ConnectedQuizNew} />
+                                                <Route path="/leaderboard" exact component={ConnectedLeaderBoard} />
                                                 <Route path="/logout" exact component={ConnectedLogout} />
                                                 <Route path='/login' exact component={ConnectedLogin} actionLogin={handleLogin} users={users}></Route>
                                                 <Route component={NotFound} />

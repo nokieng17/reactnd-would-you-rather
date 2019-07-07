@@ -4,15 +4,14 @@ import Button from '@material-ui/core/Button';
 import QuizTemplate from './QuizTemplate';
 import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { handleVoteQuestion } from '../actions/questions';
-import { Redirect } from 'react-router-dom'
+import QuizResult from './QuizResult'
 
 const MyisAnswered = (authedUser) => (quiz) => quiz.optionOne.votes.concat(quiz.optionTwo.votes).includes(authedUser)
 
 class Quiz extends React.Component {
 
     state = {
-        answer: '',
-        voted: false
+        answer: ''
     }
 
     componentDidMount() {
@@ -45,26 +44,22 @@ class Quiz extends React.Component {
 
     handleVoteQuestion = () => {
 
-        this.setState({
-            voted: true
-        })
+        const {quiz, voteQuestion} = this.props
+        voteQuestion(quiz.id, this.state.answer)
     }
 
 
     render() {
-        const { author, quiz, authedUser, voteQuestion } = this.props
-        const { answer, voted } = this.state;
+        const { author, quiz, authedUser,  users } = this.props
+        const { answer } = this.state;
         if (!quiz || !author) {
             return (
                 <p>The question does not exist</p>
             )
         }
-        if (voted || MyisAnswered(authedUser)(quiz)) {
-            if (voted && undefined !== this.state.answer) {
-                voteQuestion(quiz.id, this.state.answer)
-            }
+        if ( MyisAnswered(authedUser)(quiz)) {
             return (
-                <Redirect to={`/quiz/${quiz.id}/result`} />
+                <QuizResult author={author} quiz={quiz} authedUser={users[authedUser]} />
             )
         }
 
@@ -104,8 +99,8 @@ class Quiz extends React.Component {
 }
 //mapStateToProps, mapDispatchToProps
 function mapStateToProps({ questions, users, authedUser }, props) {
-    const { id } = props.match.params
-    const quiz = questions[id];
+    const { question_id } = props.match.params
+    const quiz = questions[question_id];
     return {
         author: undefined !== quiz ? users[quiz.author] : null,
         quiz,

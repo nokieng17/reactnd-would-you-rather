@@ -1,8 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import QuizTemplate from './QuizTemplate';
 import QuizResultItem from './QuizResultItem';
-import { Redirect } from 'react-router-dom'
 
 const options = [
     "optionOne",
@@ -18,11 +16,7 @@ function QuizResult(props) {
             <p>The question does not exist</p>
         )
     }
-    if (!authedUser.answers[quiz.id]) {
-        return (
-            <Redirect to={`/quiz/${quiz.id}`} />
-        )
-    }
+
     author.name = "Asked by " + author.name
     return (
         <QuizTemplate author={author}>
@@ -42,15 +36,4 @@ function QuizResult(props) {
         </QuizTemplate>
     )
 }
-//mapStateToProps, mapDispatchToProps
-const mapStateToProps = ({ authedUser, users, questions }, props) => {
-    const { id } = props.match.params
-    const quiz = questions[id]
-    const author = quiz ? users[quiz.author] : undefined
-    return {
-        author,
-        quiz,
-        authedUser: users[authedUser]
-    }
-}
-export default connect(mapStateToProps)(QuizResult)
+export default QuizResult

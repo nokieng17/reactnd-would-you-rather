@@ -19,7 +19,7 @@ const QuizShow = (props) => {
                 <div style={{ textAlign: "left", margin: "0px 10px 0px 10px" }}>
                     <Typography variant="h6">Would you rather</Typography>
                     <p>{quiz.optionOne.text} Or {quiz.optionTwo.text}</p>
-                    <Link to={`/quiz/${quiz.id}`}>
+                    <Link to={`/question/${quiz.id}`}>
                         <Button variant="outlined" fullWidth color="primary">View Poll</Button>
                     </Link>
                 </div>
